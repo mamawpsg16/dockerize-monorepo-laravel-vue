@@ -1,0 +1,29 @@
+services:
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: dockerize-php
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "5173:5173"
+    networks:
+      - laravue-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: dockerize-nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - php
+    networks:
+      - laravue-network
+
+networks:
+  laravue-network:
